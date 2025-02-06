@@ -33,9 +33,13 @@ def process_text():
     recognized_text = data.get("text", "")  # Use "text" instead of "message"
 
     # Generate chatbot response
-    context = [f"input: {recognized_text}"]
+    context = [f"input: {recognized_text} in 10 line"]
     response = model.generate_content(context)
     bot_response = response.text.strip()
+
+    # Remove "**" (double asterisks) from the response
+    bot_response = bot_response.replace("**", "")
+    bot_response = bot_response.replace("*", "")
 
     print("Received from JavaScript:", recognized_text)
     print("Bot Response:", bot_response)
@@ -56,5 +60,6 @@ def audio():
 def delete():
     os.remove('static/audio.mp3')
     return jsonify({'message':'file deleted'})
+
 if __name__ == '__main__':
     app.run(debug=True)
